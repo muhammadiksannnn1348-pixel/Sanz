@@ -1,9 +1,4 @@
-﻿/*
-  File: src\Pages\WelcomeScreen.jsx
-  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
-  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
-*/
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Code2, Github, Globe, User } from "lucide-react";
 import AOS from "aos";
@@ -28,7 +23,7 @@ const TypewriterEffect = ({ text }) => {
       } else {
         clearInterval(timer);
       }
-    }, 260);
+    }, 160);
 
     return () => clearInterval(timer);
   }, [text]);
@@ -200,7 +195,7 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                 data-aos-delay="1200"
               >
                 <a
-                  href="https://sanz.com"
+                  href="https://king-sanz.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-4 py-2 sm:px-6 sm:py-3 rounded-full relative group hover:scale-105 transition-transform duration-300"
@@ -211,7 +206,7 @@ const WelcomeScreen = ({ onLoadingComplete }) => {
                     <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-400" />
 
                     <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                      <TypewriterEffect text="Sanz.com" />
+                      <TypewriterEffect text="king-sanz.vercel.app" />
                     </span>
                   </div>
                 </a>

@@ -1,9 +1,4 @@
-﻿/*
-  File: src\Pages\ThankYou.jsx
-  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
-  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
-*/
-import React from "react";
+﻿import React from "react";
 import { CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 

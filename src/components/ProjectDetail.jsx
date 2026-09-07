@@ -1,10 +1,4 @@
-﻿/*
-  File: src\components\ProjectDetail.jsx
-  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
-  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
-*/
-
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -26,6 +20,16 @@ import { toSlug } from "../utils/slug";
 
 // Halaman detail proyek: menampilkan informasi lengkap project yang disimpan di localStorage
 // Termasuk meta tags untuk SEO (dengan Helmet) dan tampilan statis yang interaktif
+
+// Helper function untuk memastikan URL memiliki protokol (mencegah error 404 URL ganda)
+const formatUrl = (url) => {
+  if (!url) return "#";
+  // Jika URL tidak diawali dengan http:// atau https://, tambahkan https:// di depannya
+  if (!/^https?:\/\//i.test(url)) {
+    return `https://${url}`;
+  }
+  return url;
+};
 
 // Peta nama teknologi ke ikon lucide yang relevan
 const TECH_ICONS = {
@@ -90,7 +94,7 @@ const ProjectStats = ({ project }) => {
             {techStackCount}
           </div>
           <div className="text-[10px] md:text-xs text-gray-400">
-            Total Teknologi
+            Total Technology
           </div>
         </div>
       </div>
@@ -107,7 +111,7 @@ const ProjectStats = ({ project }) => {
             {featuresCount}
           </div>
           <div className="text-[10px] md:text-xs text-gray-400">
-            Fitur Utama
+            Key Features
           </div>
         </div>
       </div>
@@ -210,7 +214,7 @@ const ProjectDetails = () => {
             "author": {
               "@type": "Person",
               "name": "M.IKSANUDDIN",
-              "url": "https://sanz.com"
+              "url": "https://king-sanz.vercel.app"
             }
           }
         `}</script>
@@ -264,8 +268,9 @@ const ProjectDetails = () => {
                 <ProjectStats project={project} />
 
                 <div className="flex flex-wrap gap-3 md:gap-4">
+                  {/* Perbaikan di sini: Menggunakan formatUrl agar tidak dianggap sebagai relative path */}
                   <a
-                    href={project.Link}
+                    href={formatUrl(project.Link)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group relative inline-flex items-center space-x-1.5 md:space-x-2 px-4 md:px-8 py-2.5 md:py-4 bg-gradient-to-r from-blue-600/10 to-purple-600/10 hover:from-blue-600/20 hover:to-purple-600/20 text-blue-300 rounded-xl transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40 backdrop-blur-xl overflow-hidden text-sm md:text-base"
@@ -411,4 +416,3 @@ const ProjectDetails = () => {
 };
 
 export default ProjectDetails;
-

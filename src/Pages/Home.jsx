@@ -170,10 +170,10 @@ const Home = () => {
         <title>Sanz | Full-Stack Web Developer</title>
         <meta name="description" content="Official website of M.Iksanuddin, Full-Stack Web Developer. Building Modern Digital Experiences That Combine Innovation, Performance, and User-Centric Design" />
      <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://Sanz.com" />
+        <link rel="canonical" href="https://king-sanz.vercel.app/" />
         <meta property="og:title" content="Sanz | Full-Stack Web Developer" />
      <meta property="og:description" content="Official website and portfolio of M. Iksanuddin, Full-Stack Web Developer." />
-        <meta property="og:url" content="https://Sanz.com" />
+        <meta property="og:url" content="https://king-sanz.vercel.app/" />
         <meta property="og:type" content="website" />
         <script type="application/ld+json">{`
           {
@@ -181,7 +181,7 @@ const Home = () => {
             "@type": "Person",
             "name": "M.IKSANUDDIN",
             "jobTitle": "Full-Stack Web Developer",
-            "url": "https://Sanz.com",
+            "url": "https://king-sanz.vercel.app/",
             "sameAs": [
               "https://github.com/muhammadiksannnn1348-pixel",
               "https://www.discord.com/users/1459451083670814826",
