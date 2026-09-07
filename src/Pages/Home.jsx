@@ -1,9 +1,4 @@
-﻿/*
-  File: src\Pages\Home.jsx
-  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
-  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
-*/
-// Import dasar React dan beberapa hook yang digunakan
+﻿// Import dasar React dan beberapa hook yang digunakan
 import React, { useState, useEffect, useCallback, memo } from "react"
 // Helmet dipakai untuk mengatur head / meta tags pada halaman
 import { Helmet } from "react-helmet-async"

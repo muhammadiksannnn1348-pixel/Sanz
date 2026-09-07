@@ -1,9 +1,4 @@
-﻿/*
-  File: src\App.jsx
-  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
-  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
-*/
-// Router dan utilitas React
+﻿// Router dan utilitas React
 import { BrowserRouter, Routes, Route } from "react-router-dom"; // Routing SPA
 import React, { useState, lazy, Suspense } from "react"; // React core + hooks + lazy loading
 import { HelmetProvider } from "react-helmet-async"; // Untuk mengelola <head> (title, meta)
