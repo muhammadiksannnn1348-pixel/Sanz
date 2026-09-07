@@ -1,3 +1,8 @@
+﻿/*
+  File: src\components\PresenceWidget.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
 import { useEffect, useState } from "react";
 import { Music2, Code2, Gamepad2, Headphones } from "lucide-react";
 

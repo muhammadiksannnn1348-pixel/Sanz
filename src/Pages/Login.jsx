@@ -1,8 +1,17 @@
+﻿/*
+  File: src\Pages\Login.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
 import { useState } from 'react'
 import { supabase } from "../supabase";
 import { useNavigate } from 'react-router-dom'
 import { Mail, Lock, LogIn, Sparkles, Eye, EyeOff } from 'lucide-react'
 
+// Halaman Login untuk admin
+// - Menggunakan Supabase auth untuk signInWithPassword
+// - Setelah login berhasil, cek tabel `profiles` untuk `role` user
+// - Jika bukan `admin`, maka akses ditolak dan user di-signOut kembali
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -68,7 +77,7 @@ export default function Login() {
                   <Lock className="w-4 h-4 text-gray-500 ml-4 shrink-0" />
                   <input
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="••••••••"
+                    placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     required

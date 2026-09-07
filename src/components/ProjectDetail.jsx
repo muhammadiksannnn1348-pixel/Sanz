@@ -1,3 +1,9 @@
+﻿/*
+  File: src\components\ProjectDetail.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
+
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useParams, useNavigate } from "react-router-dom";
@@ -18,6 +24,10 @@ import {
 import Swal from "sweetalert2";
 import { toSlug } from "../utils/slug";
 
+// Halaman detail proyek: menampilkan informasi lengkap project yang disimpan di localStorage
+// Termasuk meta tags untuk SEO (dengan Helmet) dan tampilan statis yang interaktif
+
+// Peta nama teknologi ke ikon lucide yang relevan
 const TECH_ICONS = {
   React: Globe,
   Tailwind: Layout,
@@ -29,6 +39,7 @@ const TECH_ICONS = {
   default: Package,
 };
 
+// Badge kecil untuk menampilkan teknologi yang digunakan project
 const TechBadge = ({ tech }) => {
   const Icon = TECH_ICONS[tech] || TECH_ICONS["default"];
   return (
@@ -44,6 +55,7 @@ const TechBadge = ({ tech }) => {
   );
 };
 
+// Item untuk list fitur utama project
 const FeatureItem = ({ feature }) => {
   return (
     <li className="group flex items-start space-x-3 p-2.5 md:p-3.5 rounded-xl hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/10">
@@ -58,6 +70,7 @@ const FeatureItem = ({ feature }) => {
   );
 };
 
+// Blok statistik singkat untuk project (jumlah teknologi dan fitur)
 const ProjectStats = ({ project }) => {
   const techStackCount = project?.TechStack?.length || 0;
   const featuresCount = project?.Features?.length || 0;
@@ -102,6 +115,7 @@ const ProjectStats = ({ project }) => {
   );
 };
 
+// Jika repo GitHub bertanda 'Private', tampilkan modal info
 const handleGithubClick = (githubLink) => {
   if (githubLink === "Private") {
     Swal.fire({
@@ -118,12 +132,14 @@ const handleGithubClick = (githubLink) => {
   return true;
 };
 
+// Komponen utama halaman detail project
 const ProjectDetails = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
+  // Ambil data project dari localStorage berdasarkan slug pada URL
   useEffect(() => {
     window.scrollTo(0, 0);
     const storedProjects = JSON.parse(localStorage.getItem("projects")) || [];
@@ -137,7 +153,7 @@ const ProjectDetails = () => {
         ...selectedProject,
         Features: selectedProject.Features || [],
         TechStack: selectedProject.TechStack || [],
-        Github: selectedProject.Github || "https://github.com/EkiZR",
+        Github: selectedProject.Github || "https://github.com/Sanz",
       };
       setProject(enhancedProject);
     }
@@ -156,25 +172,26 @@ const ProjectDetails = () => {
     );
   }
 
-  const projectUrl = `https://ekizr.com/project/${toSlug(project.Title)}`;
+  // URL canonical untuk meta tags
+  const projectUrl = `https://sanz.com/project/${toSlug(project.Title)}`;
 
   return (
     <>
       <Helmet>
-        <title>{project.Title} — Eki Zulfar Rachman</title>
+        <title>{project.Title} â€” Sanz</title>
         <meta
           name="description"
           content={
             project.Description
               ? project.Description.slice(0, 155)
-              : `Project ${project.Title} oleh Eki Zulfar Rachman — Frontend Web Developer.`
+              : `Project ${project.Title} oleh Sanz â€” Web Developer.`
           }
         />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href={projectUrl} />
         <meta
           property="og:title"
-          content={`${project.Title} — Eki Zulfar Rachman`}
+          content={`${project.Title} â€” Sanz`}
         />
         <meta
           property="og:description"
@@ -192,8 +209,8 @@ const ProjectDetails = () => {
             "url": "${projectUrl}",
             "author": {
               "@type": "Person",
-              "name": "Eki Zulfar Rachman",
-              "url": "https://ekizr.com"
+              "name": "M.IKSANUDDIN",
+              "url": "https://sanz.com"
             }
           }
         `}</script>
@@ -394,3 +411,4 @@ const ProjectDetails = () => {
 };
 
 export default ProjectDetails;
+

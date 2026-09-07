@@ -1,3 +1,8 @@
+﻿/*
+  File: src\Pages\dashboard\Comments.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
 import { useEffect, useState, useMemo } from "react";
 import { supabase } from "../../supabase";
 import {
@@ -110,7 +115,7 @@ export default function Comments() {
               Comments
             </h1>
             <p className="text-gray-500 text-xs">
-              {comments.length} total · {pinnedCount} pinned
+              {comments.length} total Â· {pinnedCount} pinned
             </p>
           </div>
         </div>
@@ -297,7 +302,7 @@ export default function Comments() {
       {totalPages > 1 && (
         <div className="flex items-center justify-between gap-3 pt-2">
           <p className="text-xs text-gray-500">
-            Showing {(page - 1) * PAGE_SIZE + 1}–
+            Showing {(page - 1) * PAGE_SIZE + 1}â€“
             {Math.min(page * PAGE_SIZE, filtered.length)} of {filtered.length}
           </p>
           <div className="flex items-center gap-1">
@@ -325,7 +330,7 @@ export default function Comments() {
                     key={`dots-${i}`}
                     className="px-2 text-gray-600 text-xs"
                   >
-                    …
+                    â€¦
                   </span>
                 ) : (
                   <button
@@ -374,3 +379,4 @@ function highlightMatch(text, query) {
     ),
   );
 }
+

@@ -1,6 +1,14 @@
+﻿/*
+  File: src\Pages\404.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
 import React from 'react';
 import { Home, ArrowLeft } from 'lucide-react';
 
+// Halaman 404 sederhana: menampilkan pesan 'Not Found' dan tombol kembali/beranda
+// - handleGoBack: kembali ke history sebelumnya
+// - handleGoHome: pindah ke root '/' (fallback untuk aplikasi statis)
 export default function NotFoundPage() {
   const handleGoBack = () => {
     window.history.back();
@@ -35,7 +43,7 @@ export default function NotFoundPage() {
         {/* Illustration */}
         <div className="mb-8">
           <div className="w-32 h-32 mx-auto bg-indigo-100 rounded-full flex items-center justify-center mb-6">
-            <div className="text-6xl">🔍</div>
+            <div className="text-6xl">ðŸ”</div>
           </div>
         </div>
 

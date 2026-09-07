@@ -1,6 +1,10 @@
+﻿/*
+  File: src\components\SocialLinks.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
 import { useEffect } from "react";
 import {
-  Linkedin,
   Github,
   Instagram,
   Youtube,
@@ -10,48 +14,65 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import PresenceWidget from "./PresenceWidget";
 
+// Icon SVG custom untuk Discord (dipakai di daftar social links)
+const DiscordIcon = ({ className, ...props }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={className}
+    {...props}
+  >
+    <path
+      d="M20.317 4.37C18.939 3.73 17.489 3.29 15.989 3.08C15.75 3.47 15.49 3.98 15.3 4.38C13.66 4.18 12.02 4.18 10.38 4.38C10.19 3.98 9.93 3.47 9.69 3.08C8.19 3.29 6.74 3.73 5.36 4.37C2.4 8.89 1.72 13.32 2.14 17.7C3.84 19.15 5.45 20.09 7.02 20.74C7.5 20.08 7.93 19.38 8.31 18.65C7.57 18.38 6.87 17.97 6.22 17.47C6.42 17.34 6.62 17.18 6.81 17.03C10.53 19.19 14.66 19.19 18.38 17.03C18.57 17.18 18.77 17.34 18.97 17.47C18.32 17.97 17.62 18.38 16.88 18.65C17.26 19.38 17.69 20.08 18.17 20.74C19.74 20.09 21.35 19.15 23.05 17.7C23.55 12.63 22.4 8.25 20.317 4.37ZM9.46 15.24C8.55 15.24 7.8 14.42 7.8 13.39C7.8 12.36 8.54 11.54 9.46 11.54C10.38 11.54 11.12 12.36 11.11 13.39C11.11 14.42 10.38 15.24 9.46 15.24ZM14.54 15.24C13.62 15.24 12.88 14.42 12.88 13.39C12.88 12.36 13.62 11.54 14.54 11.54C15.46 11.54 16.2 12.36 16.19 13.39C16.19 14.42 15.46 15.24 14.54 15.24Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+// Daftar tautan sosial yang tampil di komponen
 const socialLinks = [
   {
-    name: "LinkedIn",
+    name: "Discord",
     displayName: "Let's Connect",
-    subText: "on LinkedIn",
-    icon: Linkedin,
-    url: "https://www.linkedin.com/in/ekizr/",
-    color: "#0A66C2",
-    gradient: "from-[#0A66C2] to-[#0077B5]",
+    subText: "on Discord",
+    icon: DiscordIcon,
+    url: "https://discord.com/users/1459451083670814826",
+    color: "#5865F2",
+    gradient: "from-[#5865F2] to-[#7289DA]",
     isPrimary: true,
   },
   {
     name: "Instagram",
     displayName: "Instagram",
-    subText: "@ekizr_",
+    subText: "@xy.sanz.kce",
     icon: Instagram,
-    url: "https://www.instagram.com/ekizr_/?hl=id",
+    url: "https://www.instagram.com/xy.sanz.kce",
     color: "#E4405F",
     gradient: "from-[#833AB4] via-[#E4405F] to-[#FCAF45]",
   },
   {
     name: "YouTube",
     displayName: "Youtube",
-    subText: "@eki zulfar",
+    subText: "@Ryujin_Sanz",
     icon: Youtube,
-    url: "https://www.youtube.com/@eki_zulfar",
+    url: "https://www.youtube.com/@Ryujin_Sanz",
     color: "#FF0000",
     gradient: "from-[#FF0000] to-[#CC0000]",
   },
   {
     name: "GitHub",
     displayName: "Github",
-    subText: "@EkiZR",
+    subText: "@Sanz",
     icon: Github,
-    url: "https://github.com/EkiZR",
+    url: "https://github.com/muhammadiksannnn1348-pixel",
     color: "#ffffff",
     gradient: "from-[#333] to-[#24292e]",
   },
   {
     name: "TikTok",
     displayName: "Tiktok",
-    subText: "@eki_zulfar",
+    subText: "@xy.sanzx_kce",
     icon: ({ className, ...props }) => (
       <svg
         width="24px"
@@ -89,21 +110,22 @@ const socialLinks = [
         </g>
       </svg>
     ),
-    url: "https://tiktok.com/@eki_zulfar",
+    url: "https://tiktok.com/@xy.sanzx_kce",
     color: "black",
     gradient: "from-[#000000] via-[#25F4EE] to-[#FE2C55]",
   },
 ];
 
 const SocialLinks = () => {
+  // Ambil link utama (Discord) dan sisanya untuk grid
   const linkedIn = socialLinks.find((link) => link.isPrimary);
   const otherLinks = socialLinks.filter((link) => !link.isPrimary);
   const [instagram, youtube, github, tiktok] = otherLinks;
 
+  // Inisialisasi AOS (animate on scroll)
   useEffect(() => {
     AOS.init({
       offset: 10,
-     
     });
   }, []);
 
@@ -118,7 +140,7 @@ const SocialLinks = () => {
       </h3>
 
       <div className="flex flex-col gap-4">
-        {/* LinkedIn - Primary Row */}
+        {/* Baris utama: Discord (primary) */}
         <a
           href={linkedIn.url}
           target="_blank"
@@ -135,7 +157,7 @@ const SocialLinks = () => {
                        bg-gradient-to-r ${linkedIn.gradient}`}
           />
 
-          {/* Content Container */}
+          {/* Konten utama: icon + teks */}
           <div className="relative flex items-center gap-4">
             {/* Icon Container */}
             <div className="relative flex items-center justify-center">
@@ -152,7 +174,7 @@ const SocialLinks = () => {
               </div>
             </div>
 
-            {/* Text Container */}
+            {/* Teks */}
             <div className="flex flex-col">
               <span className="text-lg font-bold pt-[0.2rem] text-gray-200 tracking-tight leading-none group-hover:text-white transition-colors duration-300">
                 {linkedIn.displayName}
@@ -163,14 +185,14 @@ const SocialLinks = () => {
             </div>
           </div>
 
-          {/* External Link */}
+          {/* Ikon external */}
           <ExternalLink
             className="relative w-5 h-5 text-gray-500 group-hover:text-white
                        opacity-0 group-hover:opacity-100 transition-all duration-300
                        transform group-hover:translate-x-0 -translate-x-1"
           />
 
-          {/* Shine Effect */}
+          {/* Efek kilau */}
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none overflow-hidden">
             <div
               className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent
@@ -179,7 +201,7 @@ const SocialLinks = () => {
           </div>
         </a>
 
-        {/* Second Row - Instagram & YouTube */}
+        {/* Baris kedua: Instagram & YouTube */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[instagram, youtube].map((link, index) => (
             <a
@@ -238,7 +260,7 @@ const SocialLinks = () => {
           ))}
         </div>
 
-        {/* Third Row - GitHub & TikTok */}
+        {/* Baris ketiga: GitHub & TikTok */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[github, tiktok].map((link, index) => (
             <a

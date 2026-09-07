@@ -1,3 +1,8 @@
+﻿/*
+  File: src\Pages\About.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
 import React, { useEffect, useState, memo, useMemo } from "react"
 import { FileText, Code, Award, Globe, ArrowUpRight, Sparkles, UserCheck } from "lucide-react"
 import AOS from 'aos'
@@ -21,7 +26,7 @@ const Header = memo(() => (
       data-aos-duration="800"
     >
       <Sparkles className="w-5 h-5 text-purple-400" />
-      Transforming ideas into digital experiences
+      Turning logic into sleek interfaces.
       <Sparkles className="w-5 h-5 text-purple-400" />
     </p>
   </div>
@@ -125,7 +130,7 @@ const AboutPage = () => {
       const storedProjects = JSON.parse(localStorage.getItem("projects") || "[]");
       const storedCertificates = JSON.parse(localStorage.getItem("certificates") || "[]");
       
-      const startDate = new Date("2021-11-06");
+      const startDate = new Date("2025-07-06");
       const today = new Date();
       const experience = today.getFullYear() - startDate.getFullYear() -
         (today < new Date(today.getFullYear(), startDate.getMonth(), startDate.getDate()) ? 1 : 0);
@@ -229,7 +234,7 @@ const AboutPage = () => {
                 data-aos-duration="1300"
                 itemProp="name"
               >
-                Eki Zulfar Rachman
+                M.IKSANUDDIN
               </span>
             </h2>
             
@@ -238,9 +243,9 @@ const AboutPage = () => {
               data-aos="fade-right"
               data-aos-duration="1500"
             >
-        Saya adalah mahasiswa Teknik Informatika yang berfokus pada pengembangan Front-End. 
-Saya berfokus pada penciptaan pengalaman digital yang menarik dan selalu berupaya memberikan solusi terbaik dalam setiap proyek yang saya kerjakan.
-                  </p>
+              I am a Software Engineering student at SMK Negeri 1 Pasuruan, focusing on the development of modern, interactive websites.
+              I enjoy transforming ideas into digital products that are engaging, functional, and user-friendly. Every project I undertake serves as an opportunity to grow, create better user experiences, and deliver effective, impactful solutions.
+            </p>
 
                {/* Quote Section */}
       <div 
@@ -265,7 +270,7 @@ Saya berfokus pada penciptaan pengalaman digital yang menarik dan selalu berupay
       </div>
 
             <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 lg:gap-4 lg:px-0 w-full">
-              <a href="https://drive.google.com/drive/folders/1BOm51Grsabb3zj6Xk27K-iRwI1zITcpo" className="w-full lg:w-auto">
+              <a href="/cv.png" className="w-full lg:w-auto">
               <button 
                 data-aos="fade-up"
                 data-aos-duration="800"

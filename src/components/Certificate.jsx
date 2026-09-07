@@ -1,9 +1,18 @@
+﻿/*
+  File: src\components\Certificate.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
 import React, { useState } from "react"
 import { Modal, IconButton, Box, Fade, Backdrop, Zoom, Typography } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import FullscreenIcon from "@mui/icons-material/Fullscreen"
 
+// Komponen untuk menampilkan thumbnail sertifikat dan membuka modal fullscreen
+// Props:
+// - ImgSertif: url gambar sertifikat
 const Certificate = ({ ImgSertif }) => {
+	// State modal terbuka/tutup
 	const [open, setOpen] = useState(false)
 
 	const handleOpen = () => {
@@ -55,6 +64,7 @@ const Certificate = ({ ImgSertif }) => {
 							zIndex: 1,
 						},
 					}}>
+					{/* Gambar sertifikat (klik untuk buka modal) */}
 					<img
 						className="certificate-image"
 						src={ImgSertif}
@@ -157,7 +167,7 @@ const Certificate = ({ ImgSertif }) => {
 							outline: "none",
 						},
 					}}>
-					{/* Close Button */}
+					{/* Tombol tutup */}
 					<IconButton
 						onClick={handleClose}
 						sx={{
@@ -177,7 +187,7 @@ const Certificate = ({ ImgSertif }) => {
 						<CloseIcon sx={{ fontSize: 24 }} />
 					</IconButton>
 
-					{/* Modal Image */}
+					{/* Gambar ukuran penuh di modal */}
 					<img
 						src={ImgSertif}
 						alt="Certificate Full View"
@@ -196,3 +206,4 @@ const Certificate = ({ ImgSertif }) => {
 }
 
 export default Certificate
+

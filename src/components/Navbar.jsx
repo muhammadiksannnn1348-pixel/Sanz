@@ -1,11 +1,29 @@
+﻿/*
+  File: src\components\Navbar.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
 import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
+/*
+  Navbar.jsx
+  - Komponen navigasi atas yang responsif.
+  - Catatan penjelasan per-baris (Indonesia):
+    * `isOpen`  : boolean, apakah menu mobile terbuka.
+    * `scrolled`: boolean, true jika pengguna sudah scroll beberapa pixel.
+    * `activeSection`: string, menyimpan id section yang sedang terlihat.
+    * `navItems`: array item navigasi yang merujuk ke anchor pada halaman.
+*/
 const Navbar = () => {
+    // menandakan apakah menu mobile terbuka
     const [isOpen, setIsOpen] = useState(false);
+    // true jika halaman sudah digulir lebih dari ambang (dipakai untuk efek background)
     const [scrolled, setScrolled] = useState(false);
+    // id section aktif (mis. 'Home', 'About') untuk menandai item navbar
     const [activeSection, setActiveSection] = useState("Home");
-    
+
+    // daftar link navigasi; gunakan href anchor agar berlaku single-page
     const navItems = [
         { href: "#Home", label: "Home" },
         { href: "#About", label: "About" },
@@ -13,25 +31,31 @@ const Navbar = () => {
         { href: "#Contact", label: "Contact" },
     ];
 
+    // Effect untuk memantau scroll dan menentukan section aktif
     useEffect(() => {
         const handleScroll = () => {
-            setScrolled(window.scrollY > 20);
-            const sections = navItems.map(item => {
-                const section = document.querySelector(item.href);
-                if (section) {
-                    return {
-                        id: item.href.replace("#", ""),
-                        offset: section.offsetTop - 550,
-                        height: section.offsetHeight
-                    };
-                }
-                return null;
-            }).filter(Boolean);
+            setScrolled(window.scrollY > 20); // set scrolled jika lebih dari 20px
+
+            // Cari posisi tiap section (offset top dan tinggi)
+            const sections = navItems
+                .map((item) => {
+                    const section = document.querySelector(item.href);
+                    if (section) {
+                        return {
+                            id: item.href.replace("#", ""),
+                            offset: section.offsetTop - 550,
+                            height: section.offsetHeight,
+                        };
+                    }
+                    return null;
+                })
+                .filter(Boolean);
 
             const currentPosition = window.scrollY;
-            const active = sections.find(section => 
-                currentPosition >= section.offset && 
-                currentPosition < section.offset + section.height
+            const active = sections.find(
+                (section) =>
+                    currentPosition >= section.offset &&
+                    currentPosition < section.offset + section.height
             );
 
             if (active) {
@@ -40,26 +64,28 @@ const Navbar = () => {
         };
 
         window.addEventListener("scroll", handleScroll);
-        handleScroll();
+        handleScroll(); // panggil sekali agar state sinkron saat load
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    // Effect untuk mengunci scroll body saat menu mobile terbuka
     useEffect(() => {
         if (isOpen) {
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = "hidden";
         } else {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = "unset";
         }
     }, [isOpen]);
 
+    // Fungsi helper untuk scroll ke section dan menutup menu mobile
     const scrollToSection = (e, href) => {
         e.preventDefault();
         const section = document.querySelector(href);
         if (section) {
-            const top = section.offsetTop - 100;
+            const top = section.offsetTop - 100; // offset agar tidak tertutup header
             window.scrollTo({
                 top: top,
-                behavior: "smooth"
+                behavior: "smooth",
             });
         }
         setIsOpen(false);
@@ -84,10 +110,10 @@ const Navbar = () => {
                             onClick={(e) => scrollToSection(e, "#Home")}
                             className="text-xl font-bold bg-gradient-to-r from-[#a855f7] to-[#6366f1] bg-clip-text text-transparent"
                         >
-                            Ekizr
+                            Sanz
                         </a>
                     </div>
-        
+
                     {/* Desktop Navigation */}
                     <div className="hidden md:block">
                         <div className="ml-8 flex items-center space-x-8">
@@ -118,7 +144,7 @@ const Navbar = () => {
                             ))}
                         </div>
                     </div>
-        
+
                     {/* Mobile Menu Button */}
                     <div className="md:hidden">
                         <button
@@ -127,22 +153,16 @@ const Navbar = () => {
                                 isOpen ? "rotate-90 scale-125" : "rotate-0 scale-100"
                             }`}
                         >
-                            {isOpen ? (
-                                <X className="w-6 h-6" />
-                            ) : (
-                                <Menu className="w-6 h-6" />
-                            )}
+                            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                         </button>
                     </div>
                 </div>
             </div>
-        
+
             {/* Mobile Menu */}
             <div
                 className={`md:hidden transition-all duration-300 ease-in-out ${
-                    isOpen
-                        ? "max-h-screen opacity-100"
-                        : "max-h-0 opacity-0 overflow-hidden"
+                    isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0 overflow-hidden"
                 }`}
             >
                 <div className="px-4 py-6 space-y-4">

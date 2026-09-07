@@ -1,3 +1,8 @@
+﻿/*
+  File: src\Pages\dashboard\Certificates.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
 import { useEffect, useState } from 'react'
 import { supabase } from "../../supabase";
 import { Award, Upload, Trash2, ImageIcon, Plus } from 'lucide-react'

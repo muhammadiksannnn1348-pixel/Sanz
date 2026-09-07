@@ -1,3 +1,8 @@
+﻿/*
+  File: src\Pages\Contact.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
 import React, { useState, useEffect } from "react";
 import { Share2, User, Mail, MessageSquare, Send } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -45,7 +50,7 @@ const ContactPage = () => {
 
     try {
       // Ganti dengan email Anda di FormSubmit
-      const formSubmitUrl = 'https://formsubmit.co/ekizulfarrachman@gmail.com';
+      const formSubmitUrl = 'https://formsubmit.co/muhammadiksannnn1348@gmail.com';
       
       // Siapkan data form untuk FormSubmit
       const submitData = new FormData();
@@ -125,7 +130,7 @@ const ContactPage = () => {
               WebkitTextFillColor: "transparent",
             }}
           >
-            Hubungi Saya
+            Contact me
           </span>
         </h2>
         <p
@@ -133,7 +138,7 @@ const ContactPage = () => {
           data-aos-duration="1100"
           className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base mt-2"
         >
-          Punya pertanyaan? Kirimi saya pesan, dan saya akan segera membalasnya.
+          Have a question? Send me a message, and I'll get back to you soon.
         </p>
       </div>
 
@@ -149,10 +154,10 @@ const ContactPage = () => {
             <div className="flex justify-between items-start mb-8">
               <div>
                 <h2 className="text-4xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
-                  Hubungi
+                  Contact me
                 </h2>
                 <p className="text-gray-400">
-                  Ada yang ingin didiskusikan? Kirim saya pesan dan mari kita bicara.
+                  Is there anything you'd like to discuss? Send me a message and let's talk.
                 </p>
               </div>
               <Share2 className="w-10 h-10 text-[#6366f1] opacity-50" />

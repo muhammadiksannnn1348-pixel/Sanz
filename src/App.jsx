@@ -1,54 +1,72 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React, { useState, lazy, Suspense } from "react";
-import { HelmetProvider } from "react-helmet-async";
-import "./index.css";
-import Navbar from "./components/Navbar";
-import Home from "./Pages/Home";
-import About from "./Pages/About";
-import AnimatedBackground from "./components/Background";
-import { AnimatePresence } from "framer-motion";
-import Footer from "./components/Footer";
+﻿/*
+  File: src\App.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
+// Router dan utilitas React
+import { BrowserRouter, Routes, Route } from "react-router-dom"; // Routing SPA
+import React, { useState, lazy, Suspense } from "react"; // React core + hooks + lazy loading
+import { HelmetProvider } from "react-helmet-async"; // Untuk mengelola <head> (title, meta)
 
-import Login from "./Pages/Login";
-import Dashboard from "./Pages/Dashboard";
-import ProtectedRoute from "./components/ProtectedRoute";
+// Styling global
+import "./index.css"; // File CSS utama (mengimpor Tailwind + custom)
 
-const Portofolio = lazy(() => import("./Pages/Portofolio"));
-const ContactPage = lazy(() => import("./Pages/Contact"));
-const ProjectDetails = lazy(() => import("./components/ProjectDetail"));
-const WelcomeScreen = lazy(() => import("./Pages/WelcomeScreen"));
-const NotFoundPage = lazy(() => import("./Pages/404"));
+// Komponen statis yang selalu diperlukan
+import Navbar from "./components/Navbar"; // Navbar header
+import Home from "./Pages/Home"; // Halaman utama landing
+import About from "./Pages/About"; // Bagian tentang saya
+import AnimatedBackground from "./components/Background"; // Background animasi
+import { AnimatePresence } from "framer-motion"; // Untuk animasi masuk/keluar komponen
+import Footer from "./components/Footer"; // Footer halaman
 
+// Halaman dan utilitas untuk otentikasi/admin
+import Login from "./Pages/Login"; // Halaman login
+import Dashboard from "./Pages/Dashboard"; // Halaman dashboard (admin)
+import ProtectedRoute from "./components/ProtectedRoute"; // Membungkus rute yang butuh auth
+
+// Lazy load: mengurangi bundle awal dengan memuat halaman hanya saat diperlukan
+const Portofolio = lazy(() => import("./Pages/Portofolio")); // Portofolio (di-load saat perlu)
+const ContactPage = lazy(() => import("./Pages/Contact")); // Halaman kontak (lazy)
+const ProjectDetails = lazy(() => import("./components/ProjectDetail")); // Detail project (lazy)
+const WelcomeScreen = lazy(() => import("./Pages/WelcomeScreen")); // Splash/welcome (lazy)
+const NotFoundPage = lazy(() => import("./Pages/404")); // Halaman 404 (lazy)
+
+// Komponen landing yang menampilkan welcome screen terlebih dahulu
 const LandingPage = ({ showWelcome, setShowWelcome }) => {
   return (
     <>
+      {/* AnimatePresence dari framer-motion meng-handle exit/enter animation */}
       <AnimatePresence mode="wait">
+        {/* Jika showWelcome true, tampilkan WelcomeScreen yang dimuat lazy */}
         {showWelcome && (
           <Suspense fallback={null}>
+            {/* WelcomeScreen menerima callback saat selesai untuk menutup splash */}
             <WelcomeScreen onLoadingComplete={() => setShowWelcome(false)} />
           </Suspense>
         )}
       </AnimatePresence>
 
+      {/* Jika welcome sudah selesai, tampilkan konten utama */}
       {!showWelcome && (
         <>
-          <Navbar />
-      
-          <Home />
-          <About />
-          <Suspense fallback={<div className="h-20" />}>
-            <Portofolio />
-            <ContactPage />
+          <Navbar /> {/* Header navigasi */}
+          <Home /> {/* Section beranda */}
+          <About /> {/* Section tentang */}
+          <Suspense fallback={<div className="h-20" />}> {/* Placeholder saat lazy load */}
+            <Portofolio /> {/* Daftar proyek */}
+            <ContactPage /> {/* Form atau info kontak */}
           </Suspense>
-          <Footer />
+          <Footer /> {/* Footer global */}
         </>
       )}
     </>
   );
 };
 
+// Layout sederhana untuk halaman detail project (memasukkan footer)
 const ProjectPageLayout = () => (
   <>
+    {/* Memuat detail project secara lazy */}
     <Suspense fallback={<div className="min-h-screen" />}>
       <ProjectDetails />
     </Suspense>
@@ -57,17 +75,21 @@ const ProjectPageLayout = () => (
 );
 
 function App() {
+  // State untuk menampilkan welcome splash saat pertama load
   const [showWelcome, setShowWelcome] = useState(true);
 
   return (
-    
+    // HelmetProvider membungkus aplikasi agar dapat mengatur tag <head>
     <HelmetProvider>
+      {/* Background animasi diletakkan di luar router agar selalu ada */}
       <div className="pointer-events-none">
-  <AnimatedBackground />
-</div>
+        <AnimatedBackground />
+      </div>
+
+      {/* Router utama aplikasi */}
       <BrowserRouter>
         <Routes>
-          {/* PUBLIC */}
+          {/* Rute publik: halaman landing */}
           <Route
             path="/"
             element={
@@ -78,12 +100,13 @@ function App() {
             }
           />
 
+          {/* Rute detail project menggunakan slug */}
           <Route path="/project/:slug" element={<ProjectPageLayout />} />
 
-          {/* AUTH */}
+          {/* Halaman login (publik) */}
           <Route path="/login" element={<Login />} />
 
-          {/* ADMIN (PROTECTED) */}
+          {/* Rute dashboard dilindungi oleh ProtectedRoute */}
           <Route
             path="/dashboard/*"
             element={
@@ -93,7 +116,7 @@ function App() {
             }
           />
 
-          {/* 404 */}
+          {/* Rute fallback untuk 404 - dimuat lazy */}
           <Route
             path="*"
             element={

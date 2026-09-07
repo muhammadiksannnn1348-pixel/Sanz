@@ -1,3 +1,8 @@
+﻿/*
+  File: src\components\Commentar.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
 import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { MessageCircle, UserCircle2, Loader2, AlertCircle, Send, ImagePlus, X, Pin } from 'lucide-react';
@@ -6,6 +11,7 @@ import "aos/dist/aos.css";
 import { supabase } from '../supabase';
 
 
+// Komponen Comment (presentasional) â€” memo untuk menghindari render berlebih
 const Comment = memo(({ comment, formatDate, index, isPinned = false }) => (
     <div 
         className={`px-4 pt-4 pb-2 rounded-xl border transition-all group hover:shadow-lg hover:-translate-y-0.5 ${
@@ -14,6 +20,7 @@ const Comment = memo(({ comment, formatDate, index, isPinned = false }) => (
                 : 'bg-white/5 border-white/10 hover:bg-white/10'
         }`}
     >
+        {/* Jika comment dipin, tampilkan badge */}
         {isPinned && (
             <div className="flex items-center gap-2 mb-3 text-indigo-400">
                 <Pin className="w-4 h-4" />
@@ -21,6 +28,7 @@ const Comment = memo(({ comment, formatDate, index, isPinned = false }) => (
             </div>
         )}
         <div className="flex items-start gap-3">
+            {/* Profile image jika ada, jika tidak tampilkan icon default */}
             {comment.profile_image ? (
                 <img
                     src={comment.profile_image}
@@ -63,6 +71,7 @@ const Comment = memo(({ comment, formatDate, index, isPinned = false }) => (
     </div>
 ));
 
+// Form komentar (memoized) menangani input, preview gambar, dan validasi kecil
 const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
     const [newComment, setNewComment] = useState('');
     const [userName, setUserName] = useState('');
@@ -71,6 +80,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
     const textareaRef = useRef(null);
     const fileInputRef = useRef(null);
 
+    // Handle perubahan file gambar: validasi ukuran dan tipe
     const handleImageChange = useCallback((e) => {
         const file = e.target.files[0];
         if (file) {
@@ -96,6 +106,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
         }
     }, []);
 
+    // Auto-resize textarea saat mengetik
     const handleTextareaChange = useCallback((e) => {
         setNewComment(e.target.value);
         if (textareaRef.current) {
@@ -104,6 +115,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
         }
     }, []);
 
+    // Submit form: panggil callback onSubmit dari parent
     const handleSubmit = useCallback((e) => {
         e.preventDefault();
         if (!newComment.trim() || !userName.trim()) return;
@@ -225,6 +237,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
     );
 });
 
+// Komponen utama Komentar: mengurus fetch, realtime, upload, dan render list
 const Komentar = () => {
     const [comments, setComments] = useState([]);
     const [pinnedComment, setPinnedComment] = useState(null);
@@ -232,7 +245,7 @@ const Komentar = () => {
     const [error, setError] = useState('');
 
     useEffect(() => {
-        // Initialize AOS
+        // Initialize AOS (scroll animations)
         AOS.init({
             once: false,
             duration: 1000,
@@ -305,6 +318,7 @@ const Komentar = () => {
         };
     }, []);
 
+    // Upload image ke Supabase Storage dan kembalikan URL publik
     const uploadImage = useCallback(async (imageFile) => {
         if (!imageFile) return null;
         
@@ -327,6 +341,7 @@ const Komentar = () => {
         return data.publicUrl;
     }, []);
 
+    // Menangani submit komentar: upload image lalu insert ke tabel
     const handleCommentSubmit = useCallback(async ({ newComment, userName, imageFile }) => {
         setError('');
         setIsSubmitting(true);
@@ -357,6 +372,7 @@ const Komentar = () => {
         }
     }, [uploadImage]);
 
+    // Format tanggal menjadi relative time singkat, fallback ke format tanggal
     const formatDate = useCallback((timestamp) => {
         if (!timestamp) return '';
         const date = new Date(timestamp);

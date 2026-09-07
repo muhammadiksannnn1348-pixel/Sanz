@@ -1,16 +1,33 @@
+﻿/*
+  File: src\Pages\Home.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
+// Import dasar React dan beberapa hook yang digunakan
 import React, { useState, useEffect, useCallback, memo } from "react"
+// Helmet dipakai untuk mengatur head / meta tags pada halaman
 import { Helmet } from "react-helmet-async"
-import { Github, Linkedin, Mail, ExternalLink, Instagram, Sparkles } from "lucide-react"
+// Ikon dari lucide-react yang dipakai di UI
+import { Github, Mail, ExternalLink, Instagram, Sparkles } from "lucide-react"
+// AOS untuk animasi saat scroll (animate on scroll)
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
+// SVG custom untuk ikon Discord (dipakai pada social link)
+const DiscordIcon = ({ className, ...props }) => (
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className} {...props}>
+    <path d="M20.317 4.37C18.939 3.73 17.489 3.29 15.989 3.08C15.75 3.47 15.49 3.98 15.3 4.38C13.66 4.18 12.02 4.18 10.38 4.38C10.19 3.98 9.93 3.47 9.69 3.08C8.19 3.29 6.74 3.73 5.36 4.37C2.4 8.89 1.72 13.32 2.14 17.7C3.84 19.15 5.45 20.09 7.02 20.74C7.5 20.08 7.93 19.38 8.31 18.65C7.57 18.38 6.87 17.97 6.22 17.47C6.42 17.34 6.62 17.18 6.81 17.03C10.53 19.19 14.66 19.19 18.38 17.03C18.57 17.18 18.77 17.34 18.97 17.47C18.32 17.97 17.62 18.38 16.88 18.65C17.26 19.38 17.69 20.08 18.17 20.74C19.74 20.09 21.35 19.15 23.05 17.7C23.55 12.63 22.4 8.25 20.317 4.37ZM9.46 15.24C8.55 15.24 7.8 14.42 7.8 13.39C7.8 12.36 8.54 11.54 9.46 11.54C10.38 11.54 11.12 12.36 11.11 13.39C11.11 14.42 10.38 15.24 9.46 15.24ZM14.54 15.24C13.62 15.24 12.88 14.42 12.88 13.39C12.88 12.36 13.62 11.54 14.54 11.54C15.46 11.54 16.2 12.36 16.19 13.39C16.19 14.42 15.46 15.24 14.54 15.24Z" fill="currentColor"/>
+  </svg>
+)
+
+// Badge kecil yang menandakan status/CTA, dioptimalkan untuk performa dengan memo
 const StatusBadge = memo(() => (
-  <div className="inline-block animate-float lg:mx-0" data-aos="zoom-in" data-aos-delay="400">
-    <div className="relative group">
-      <div className="absolute -inset-0.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-full blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
-      <div className="relative px-3 sm:px-4 py-2 rounded-full bg-black/40 backdrop-blur-xl border border-white/10">
-        <span className="bg-gradient-to-r from-[#6366f1] to-[#a855f7] text-transparent bg-clip-text sm:text-sm text-[0.7rem] font-medium flex items-center">
-          <Sparkles className="sm:w-4 sm:h-4 w-3 h-3 mr-2 text-blue-400" />
+  <div className="inline-block animate-float lg:mx-0 mt-10" data-aos="zoom-in" data-aos-delay="400">
+    <div className="relative group cursor-default">
+      <div className="absolute -inset-0.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-full blur-sm opacity-20 group-hover:opacity-40 transition-all duration-500"></div>
+      <div className="relative px-4 sm:px-4 py-2 rounded-full bg-black/40 backdrop-blur-xl border border-white/10 group-hover:border-white/20 group-hover:scale-[1.02] transition-all duration-300">
+        <span className="bg-gradient-to-r from-[#6366f1] via-indigo-300 to-[#a855f7] text-transparent bg-clip-text sm:text-sm text-[0.7rem] font-medium flex items-center">
+          <Sparkles className="sm:w-4 sm:h-4 w-3 h-3 mr-2 text-indigo-400 animate-spin-slow" />
           Ready to Innovate
         </span>
       </div>
@@ -18,80 +35,88 @@ const StatusBadge = memo(() => (
   </div>
 ));
 
+// Judul utama halaman, dipisahkan sebagai komponen kecil dan dimemo untuk efisiensi render
 const MainTitle = memo(() => (
   <div className="space-y-2" data-aos="fade-up" data-aos-delay="600">
-    <h1 className="text-5xl sm:text-6xl md:text-6xl lg:text-6xl xl:text-7xl font-bold tracking-tight">
+    <h1 className="text-5xl sm:text-6xl md:text-6xl lg:text-6xl xl:text-6xl font-bold tracking-tight">
       <span className="relative inline-block">
-        <span className="absolute -inset-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] blur-2xl opacity-20"></span>
-        <span className="relative bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
-          Frontend
+        <span className="absolute -inset-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] blur-xl opacity-10 group-hover:opacity-20 transition-opacity"></span>
+        <span className="relative bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent hover:tracking-wide transition-all duration-500">
+          Full-Stack
         </span>
       </span>
       <br />
       <span className="relative inline-block mt-2">
-        <span className="absolute -inset-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] blur-2xl opacity-20"></span>
-        <span className="relative bg-gradient-to-r from-[#6366f1] to-[#a855f7] bg-clip-text text-transparent">
-          Developer
+        <span className="absolute -inset-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] blur-xl opacity-10"></span>
+        <span className="relative bg-gradient-to-r from-[#6366f1] via-purple-400 to-[#a855f7] bg-clip-text text-transparent drop-shadow-[0_5px_15px_rgba(99,102,241,0.2)]">
+          Web Developer
         </span>
       </span>
     </h1>
   </div>
 ));
 
+// Chip kecil untuk menampilkan nama teknologi (React, JS, dsb.)
 const TechStack = memo(({ tech }) => (
-  <div className="px-4 py-2 hidden sm:block rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-sm text-gray-300 hover:bg-white/10 transition-colors">
+  <div className="px-4 py-2 hidden sm:block rounded-full bg-white/5 backdrop-blur-sm border border-white/10 text-sm text-gray-300 hover:bg-white/10 hover:border-white/25 hover:scale-105 hover:-translate-y-0.5 transition-all duration-300 cursor-default shadow-sm">
     {tech}
   </div>
 ));
 
+// Tombol CTA yang digunakan untuk navigasi internal/eksternal, menerima ikon dan teks
 const CTAButton = memo(({ href, text, icon: Icon }) => (
-  <a href={href}>
-    <button className="group relative w-[160px]">
-      <div className="absolute -inset-0.5 bg-gradient-to-r from-[#4f52c9] to-[#8644c5] rounded-xl opacity-50 blur-md group-hover:opacity-90 transition-all duration-700"></div>
-      <div className="relative h-11 bg-[#030014] backdrop-blur-xl rounded-lg border border-white/10 leading-none overflow-hidden">
-        <div className="absolute inset-0 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 bg-gradient-to-r from-[#4f52c9]/20 to-[#8644c5]/20"></div>
-        <span className="absolute inset-0 flex items-center justify-center gap-2 text-sm group-hover:gap-3 transition-all duration-300">
-          <span className="bg-gradient-to-r from-gray-200 to-white bg-clip-text text-transparent font-medium z-10">
+  <a href={href} className="inline-block">
+    <button className="group relative w-[160px] cursor-pointer">
+      <div className="absolute -inset-0.5 bg-gradient-to-r from-[#4f52c9] to-[#8644c5] rounded-xl opacity-20 blur-sm group-hover:opacity-40 group-hover:blur-md transition-all duration-500"></div>     
+      <div className="relative h-11 bg-[#030014] backdrop-blur-xl rounded-lg border border-white/10 group-hover:border-white/30 leading-none overflow-hidden transition-all duration-300 group-hover:scale-[1.03] shadow-lg">
+        <div className="absolute inset-0 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out bg-gradient-to-r from-[#4f52c9]/30 via-[#8644c5]/20 to-transparent"></div>    
+        <span className="absolute inset-0 flex items-center justify-center gap-2 text-sm transition-all duration-300">
+          <span className="bg-gradient-to-r from-gray-200 via-white to-gray-300 bg-clip-text text-transparent font-medium z-10 group-hover:tracking-wider transition-all duration-300">
             {text}
           </span>
-          <Icon className={`w-4 h-4 text-gray-200 ${text === 'Contact' ? 'group-hover:translate-x-1' : 'group-hover:rotate-45'} transform transition-all duration-300 z-10`} />
+          <Icon className={`w-4 h-4 text-gray-200 ${text === 'Contact' ? 'group-hover:translate-x-1.5' : 'group-hover:rotate-45 group-hover:scale-110'} transform transition-all duration-300 ease-out z-10`} />
         </span>
       </div>
     </button>
   </a>
 ));
 
+// Tombol ikon kecil untuk link sosial (GitHub, Discord, Instagram)
 const SocialLink = memo(({ icon: Icon, link, label }) => (
-  <a href={link} target="_blank" rel="noopener noreferrer" aria-label={label}>
-    <button className="group relative p-3"
-      aria-label={label}>
-      <div className="absolute inset-0 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-xl blur opacity-20 group-hover:opacity-40 transition duration-300"></div>
-      <div className="relative rounded-xl bg-black/50 backdrop-blur-xl p-2 flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-all duration-300">
-        <Icon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
+  <a href={link} target="_blank" rel="noopener noreferrer" aria-label={label} className="inline-block">
+    <button className="group relative p-2 cursor-pointer" aria-label={label}>
+      <div className="relative rounded-xl bg-black/50 backdrop-blur-xl p-2.5 flex items-center justify-center border border-white/10 group-hover:border-white/30 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-300 ease-out shadow-sm">
+        <Icon className="w-5 h-5 text-gray-400 group-hover:text-white group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.6)] transition-all duration-300" />
       </div>
     </button>
   </a>
 ));
 
-const TYPING_SPEED = 100;
-const ERASING_SPEED = 50;
-const PAUSE_DURATION = 2000;
-const WORDS = ["Network & Telecom Student", "Tech Enthusiast"];
-const TECH_STACK = ["React", "Javascript", "Node.js", "Tailwind"];
+// Konstanta konfigurasi untuk efek typing dan data statis pada halaman
+const TYPING_SPEED = 100; // ms per karakter saat mengetik
+const ERASING_SPEED = 50; // ms per karakter saat menghapus
+const PAUSE_DURATION = 2000; // jeda setelah kata selesai diketik
+const WORDS = ["I am a student", "Tech Enthusiast", "Software Engineer", "Web Developer", "UI/UX Designer", "Graphic Designer"]; // kata-kata yang berganti-ganti
+const TECH_STACK = ["React", "Javascript", "Node.js", "Tailwind"]; // daftar teknologi yang ditampilkan
+// Daftar social link yang digunakan di bagian kiri
 const SOCIAL_LINKS = [
-  { icon: Github, link: "https://github.com/EkiZR", label: "GitHub Profile" },
-  { icon: Linkedin, link: "https://www.linkedin.com/in/ekizr/", label: "LinkedIn Profile" },
-  { icon: Instagram, link: "https://www.instagram.com/ekizr_/?hl=id", label: "Instagram Profile" }
+  { icon: Github, link: "https://github.com/muhammadiksannnn1348-pixel", label: "GitHub Profile" },
+  { icon: DiscordIcon, link: "https://discord.com/users/1459451083670814826", label: "Discord Profile" },
+  { icon: Instagram, link: "https://www.instagram.com/xy.sanz.kce", label: "Instagram Profile" }
 ];
 
 const Home = () => {
+  // State untuk efek typing dinamis
   const [text, setText] = useState("")
   const [isTyping, setIsTyping] = useState(true)
   const [wordIndex, setWordIndex] = useState(0)
   const [charIndex, setCharIndex] = useState(0)
+  // isLoaded dipakai untuk transisi opasitas saat halaman siap
   const [isLoaded, setIsLoaded] = useState(false)
+  // isHovering untuk interaksi pada bagian kanan (animasi scale saat hover)
   const [isHovering, setIsHovering] = useState(false)
 
+  // Inisialisasi AOS dan daftarkan listener resize untuk rekonfigurasi AOS
   useEffect(() => {
     const initAOS = () => {
       AOS.init({
@@ -105,30 +130,37 @@ const Home = () => {
     return () => window.removeEventListener('resize', initAOS);
   }, []);
 
+  // Set flag loaded untuk transisi masuk komponen
   useEffect(() => {
     setIsLoaded(true);
     return () => setIsLoaded(false);
   }, []);
 
+  // Logika efek mengetik (typing / erasing)
   const handleTyping = useCallback(() => {
     if (isTyping) {
       if (charIndex < WORDS[wordIndex].length) {
+        // Tambah satu karakter dari kata saat ini
         setText(prev => prev + WORDS[wordIndex][charIndex]);
         setCharIndex(prev => prev + 1);
       } else {
+        // Jika selesai mengetik kata, jeda sebentar lalu mulai erase
         setTimeout(() => setIsTyping(false), PAUSE_DURATION);
       }
     } else {
       if (charIndex > 0) {
+        // Hapus satu karakter
         setText(prev => prev.slice(0, -1));
         setCharIndex(prev => prev - 1);
       } else {
+        // Pindah ke kata berikutnya dan mulai mengetik lagi
         setWordIndex(prev => (prev + 1) % WORDS.length);
         setIsTyping(true);
       }
     }
   }, [charIndex, isTyping, wordIndex]);
 
+  // Jalankan handleTyping secara berkala sesuai mode (typing atau erasing)
   useEffect(() => {
     const timeout = setTimeout(
       handleTyping,
@@ -140,25 +172,25 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>Eki Zulfar Rachman — Frontend Web Developer</title>
-        <meta name="description" content="Website resmi Eki Zulfar Rachman, Front-End Web Developer. Saya berfokus pada penciptaan pengalaman digital yang menarik dan selalu berupaya memberikan solusi terbaik dalam setiap proyek yang saya kerjakan." />
+        <title>Sanz | Full-Stack Web Developer</title>
+        <meta name="description" content="Official website of M.Iksanuddin, Full-Stack Web Developer. Building Modern Digital Experiences That Combine Innovation, Performance, and User-Centric Design" />
      <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://ekizr.com" />
-        <meta property="og:title" content="Eki Zulfar Rachman — Frontend Web Developer" />
-     <meta property="og:description" content="Website resmi dan portofolio Eki Zulfar Rachman, Front-End Web Developer." />
-        <meta property="og:url" content="https://ekizr.com" />
+        <link rel="canonical" href="https://Sanz.com" />
+        <meta property="og:title" content="Sanz | Full-Stack Web Developer" />
+     <meta property="og:description" content="Official website and portfolio of M. Iksanuddin, Full-Stack Web Developer." />
+        <meta property="og:url" content="https://Sanz.com" />
         <meta property="og:type" content="website" />
         <script type="application/ld+json">{`
           {
             "@context": "https://schema.org",
             "@type": "Person",
-            "name": "Eki Zulfar Rachman",
-            "jobTitle": "Frontend Developer",
-            "url": "https://ekizr.com",
+            "name": "M.IKSANUDDIN",
+            "jobTitle": "Full-Stack Web Developer",
+            "url": "https://Sanz.com",
             "sameAs": [
-              "https://github.com/EkiZR",
-              "https://www.linkedin.com/in/ekizr/",
-              "https://www.instagram.com/ekizr_/"
+              "https://github.com/muhammadiksannnn1348-pixel",
+              "https://www.discord.com/users/1459451083670814826",
+              "https://www.instagram.com/xy.sanz.kce"
             ]
           }
         `}</script>
@@ -188,7 +220,7 @@ const Home = () => {
                   <p className="text-base md:text-lg text-gray-400 max-w-xl leading-relaxed font-light"
                     data-aos="fade-up"
                     data-aos-delay="1000">
-                    Menciptakan Website Yang Inovatif, Fungsional, dan User-Friendly untuk Solusi Digital.
+                    Building Modern Digital Experiences That Combine Innovation, Performance, and User-Centric Design
                   </p>
 
                   {/* Tech Stack */}

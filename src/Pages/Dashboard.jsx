@@ -1,3 +1,8 @@
+﻿/*
+  File: src\Pages\Dashboard.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
 import { useState } from 'react'
 import { Routes, Route, Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { supabase } from '../supabase'
@@ -12,6 +17,10 @@ const NAV_ITEMS = [
   { to: 'comments', label: 'Comments', icon: MessageSquare },
 ]
 
+// Halaman Dashboard admin
+// - Menyediakan sidebar navigasi untuk mengelola `projects`, `certificates`, dan `comments`
+// - Menggunakan Supabase auth untuk sign out
+// - Responsive: sidebar menjadi drawer pada layar kecil
 export default function Dashboard() {
   const location = useLocation()
   const navigate = useNavigate()
@@ -120,7 +129,7 @@ export default function Dashboard() {
           <span className="text-sm font-medium text-white">Dashboard</span>
         </div>
 
-        {/* Hanya main yang overflow-y-auto — scrollbar bisa diklik normal */}
+        {/* Hanya main yang overflow-y-auto â€” scrollbar bisa diklik normal */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
           <Routes>
             <Route index element={<Navigate to="projects" replace />} />

@@ -1,3 +1,8 @@
+﻿/*
+  File: src\Pages\Portofolio.jsx
+  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
+  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
+*/
 import React, { useEffect, useState, useCallback } from "react";
 
 import { supabase } from "../supabase"; 
@@ -16,6 +21,11 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Certificate from "../components/Certificate";
 import { Code, Award, Boxes } from "lucide-react";
+
+// Halaman Portofolio yang menampilkan tiga tab: Projects, Certificates, Tech Stack
+// - Mengambil data dari Supabase dan menyimpannya ke localStorage
+// - Menggunakan MUI Tabs + SwipeableViews untuk navigasi tab
+// - Menyediakan tombol 'See More' untuk menampilkan semua item
 
 
 const ToggleButton = ({ onClick, isShowingMore }) => (
@@ -109,13 +119,13 @@ const techStacks = [
   { icon: "javascript.svg", language: "JavaScript" },
   { icon: "tailwind.svg", language: "Tailwind CSS" },
   { icon: "reactjs.svg", language: "ReactJS" },
-  { icon: "vite.svg", language: "Vite" },
+  { icon: "nextjs.svg", language: "NextJS" },
   { icon: "nodejs.svg", language: "Node JS" },
-  { icon: "bootstrap.svg", language: "Bootstrap" },
-  { icon: "firebase.svg", language: "Firebase" },
-  { icon: "MUI.svg", language: "Material UI" },
+  { icon: "supabase.svg", language: "Supabase" },
+  { icon: "python.svg", language: "Python" },
+  { icon: "mysql.svg", language: "MySQL" },
   { icon: "vercel.svg", language: "Vercel" },
-  { icon: "SweetAlert.svg", language: "SweetAlert2" },
+  { icon: "figma.svg", language: "Figma" },
 ];
 
 export default function FullWidthTabs() {
