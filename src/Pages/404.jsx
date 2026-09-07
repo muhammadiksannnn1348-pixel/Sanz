@@ -1,9 +1,4 @@
-﻿/*
-  File: src\Pages\404.jsx
-  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
-  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
-*/
-import React from 'react';
+﻿import React from 'react';
 import { Home, ArrowLeft, Search } from 'lucide-react';
 
 export default function NotFoundPage() {
