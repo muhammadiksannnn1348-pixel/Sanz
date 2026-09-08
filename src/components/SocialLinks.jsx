@@ -1,9 +1,4 @@
-﻿/*
-  File: src\components\SocialLinks.jsx
-  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
-  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
-*/
-import { useEffect } from "react";
+﻿import { useEffect } from "react";
 import {
   Github,
   Instagram,

@@ -77,7 +77,7 @@ export default function Login() {
                   <Lock className="w-4 h-4 text-gray-500 ml-4 shrink-0" />
                   <input
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                    placeholder="********"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
                     required
