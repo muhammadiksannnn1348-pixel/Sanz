@@ -12,7 +12,7 @@ import { useRef, useEffect } from 'react';
 // - speed: kecepatan animasi
 // - intensity: intensitas warna
 // - size: skala detail noise
-const Lightning = ({ hue = 230, xOffset = 0, speed = 1, intensity = 1, size = 1 }) => {
+const Lightning = ({ hue = 230, xOffset = 0, speed = 1, intensity = 2, size = 1 }) => {
   // Referensi canvas DOM
   const canvasRef = useRef(null);
 
