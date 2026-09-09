@@ -9,6 +9,8 @@ const AnimatedBackground = () => {
 		let animationId
 		let stars = []
 		let shootingStars = []
+		let lastSpawnTime = 0
+		let isTabVisible = true
 
 		const resize = () => {
 			canvas.width = window.innerWidth
@@ -16,6 +18,15 @@ const AnimatedBackground = () => {
 		}
 		resize()
 		window.addEventListener("resize", resize)
+
+		// Pause saat pindah tab (mencegah spam)
+		const handleVisibility = () => {
+			isTabVisible = !document.hidden
+			if (document.hidden) {
+				shootingStars = []
+			}
+		}
+		document.addEventListener("visibilitychange", handleVisibility)
 
 		// Buat bintang biasa
 		const createStars = (count) => {
@@ -26,7 +37,7 @@ const AnimatedBackground = () => {
 					y: Math.random() * canvas.height,
 					radius: Math.random() * 1.5 + 0.4,
 					opacity: Math.random() * 0.8 + 0.2,
-					twinkleSpeed: Math.random() * 0.025 + 0.005,
+					twinkleSpeed: Math.random() * 0.02 + 0.004,
 					twinkleDirection: Math.random() > 0.5 ? 1 : -1,
 				})
 			}
@@ -34,37 +45,37 @@ const AnimatedBackground = () => {
 
 		// Buat bintang jatuh
 		const createShootingStar = () => {
-			const startX = Math.random() * canvas.width
-			const startY = Math.random() * (canvas.height * 0.4)
+			if (shootingStars.length >= 3) return
+
+			const startX = Math.random() * canvas.width * 0.9
+			const startY = Math.random() * (canvas.height * 0.3)
 
 			shootingStars.push({
 				x: startX,
 				y: startY,
-				length: Math.random() * 90 + 50,
-				speed: Math.random() * 10 + 7,
+				length: Math.random() * 70 + 40,
+				speed: Math.random() * 6 + 5,
 				opacity: 1,
-				angle: Math.PI / 4 + (Math.random() * 0.4 - 0.2),
+				angle: Math.PI / 4 + (Math.random() * 0.3 - 0.15),
+				fadeSpeed: 0.008 + Math.random() * 0.006,
 			})
 		}
 
-		createStars(200)
+		createStars(180)
 
-		// Spawn bintang jatuh secara acak
-		const shootingInterval = setInterval(() => {
-			if (Math.random() > 0.5) {
-				createShootingStar()
+		const animate = (timestamp) => {
+			if (!isTabVisible) {
+				animationId = requestAnimationFrame(animate)
+				return
 			}
-		}, 1100)
 
-		const animate = () => {
-			// Background gelap
 			ctx.fillStyle = "#030014"
 			ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-			// Gambar bintang + efek berkedip
+			// Bintang berkedip
 			stars.forEach((star) => {
 				star.opacity += star.twinkleSpeed * star.twinkleDirection
-				if (star.opacity <= 0.15 || star.opacity >= 1) {
+				if (star.opacity <= 0.2 || star.opacity >= 1) {
 					star.twinkleDirection *= -1
 				}
 
@@ -74,7 +85,15 @@ const AnimatedBackground = () => {
 				ctx.fill()
 			})
 
-			// Gambar & update bintang jatuh
+			// Spawn lebih sering (1.2s - 2.5s)
+			if (timestamp - lastSpawnTime > 1200 + Math.random() * 1300) {
+				if (Math.random() > 0.35) {
+					createShootingStar()
+				}
+				lastSpawnTime = timestamp
+			}
+
+			// Update & gambar bintang jatuh
 			for (let i = shootingStars.length - 1; i >= 0; i--) {
 				const s = shootingStars[i]
 
@@ -83,32 +102,30 @@ const AnimatedBackground = () => {
 
 				const gradient = ctx.createLinearGradient(s.x, s.y, endX, endY)
 				gradient.addColorStop(0, `rgba(255, 255, 255, ${s.opacity})`)
-				gradient.addColorStop(0.4, `rgba(180, 210, 255, ${s.opacity * 0.6})`)
+				gradient.addColorStop(0.5, `rgba(180, 210, 255, ${s.opacity * 0.5})`)
 				gradient.addColorStop(1, "rgba(255, 255, 255, 0)")
 
 				ctx.beginPath()
 				ctx.moveTo(s.x, s.y)
 				ctx.lineTo(endX, endY)
 				ctx.strokeStyle = gradient
-				ctx.lineWidth = 2.2
+				ctx.lineWidth = 2
 				ctx.lineCap = "round"
 				ctx.stroke()
 
-				// Kepala bintang
 				ctx.beginPath()
-				ctx.arc(s.x, s.y, 2.4, 0, Math.PI * 2)
+				ctx.arc(s.x, s.y, 2.2, 0, Math.PI * 2)
 				ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`
 				ctx.fill()
 
-				// Update posisi
 				s.x += Math.cos(s.angle) * s.speed
 				s.y += Math.sin(s.angle) * s.speed
-				s.opacity -= 0.012
+				s.opacity -= s.fadeSpeed
 
 				if (
 					s.opacity <= 0 ||
-					s.x > canvas.width + 150 ||
-					s.y > canvas.height + 150
+					s.x > canvas.width + 100 ||
+					s.y > canvas.height + 100
 				) {
 					shootingStars.splice(i, 1)
 				}
@@ -117,12 +134,12 @@ const AnimatedBackground = () => {
 			animationId = requestAnimationFrame(animate)
 		}
 
-		animate()
+		animationId = requestAnimationFrame(animate)
 
 		return () => {
 			cancelAnimationFrame(animationId)
-			clearInterval(shootingInterval)
 			window.removeEventListener("resize", resize)
+			document.removeEventListener("visibilitychange", handleVisibility)
 		}
 	}, [])
 

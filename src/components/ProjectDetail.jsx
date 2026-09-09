@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -18,20 +18,16 @@ import {
 import Swal from "sweetalert2";
 import { toSlug } from "../utils/slug";
 
-// Halaman detail proyek: menampilkan informasi lengkap project yang disimpan di localStorage
-// Termasuk meta tags untuk SEO (dengan Helmet) dan tampilan statis yang interaktif
-
-// Helper function untuk memastikan URL memiliki protokol (mencegah error 404 URL ganda)
+// Helper format URL
 const formatUrl = (url) => {
   if (!url) return "#";
-  // Jika URL tidak diawali dengan http:// atau https://, tambahkan https:// di depannya
   if (!/^https?:\/\//i.test(url)) {
     return `https://${url}`;
   }
   return url;
 };
 
-// Peta nama teknologi ke ikon lucide yang relevan
+// Icon mapping
 const TECH_ICONS = {
   React: Globe,
   Tailwind: Layout,
@@ -43,7 +39,6 @@ const TECH_ICONS = {
   default: Package,
 };
 
-// Badge kecil untuk menampilkan teknologi yang digunakan project
 const TechBadge = ({ tech }) => {
   const Icon = TECH_ICONS[tech] || TECH_ICONS["default"];
   return (
@@ -59,7 +54,6 @@ const TechBadge = ({ tech }) => {
   );
 };
 
-// Item untuk list fitur utama project
 const FeatureItem = ({ feature }) => {
   return (
     <li className="group flex items-start space-x-3 p-2.5 md:p-3.5 rounded-xl hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/10">
@@ -74,7 +68,6 @@ const FeatureItem = ({ feature }) => {
   );
 };
 
-// Blok statistik singkat untuk project (jumlah teknologi dan fitur)
 const ProjectStats = ({ project }) => {
   const techStackCount = project?.TechStack?.length || 0;
   const featuresCount = project?.Features?.length || 0;
@@ -84,42 +77,27 @@ const ProjectStats = ({ project }) => {
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-purple-900/20 opacity-50 blur-2xl z-0" />
       <div className="relative z-10 flex items-center space-x-2 md:space-x-3 bg-white/5 p-2 md:p-3 rounded-lg border border-blue-500/20 transition-all duration-300 hover:scale-105 hover:border-blue-500/50 hover:shadow-lg">
         <div className="bg-blue-500/20 p-1.5 md:p-2 rounded-full">
-          <Code2
-            className="text-blue-300 w-4 h-4 md:w-6 md:h-6"
-            strokeWidth={1.5}
-          />
+          <Code2 className="text-blue-300 w-4 h-4 md:w-6 md:h-6" strokeWidth={1.5} />
         </div>
         <div className="flex-grow">
-          <div className="text-lg md:text-xl font-semibold text-blue-200">
-            {techStackCount}
-          </div>
-          <div className="text-[10px] md:text-xs text-gray-400">
-            Total Technology
-          </div>
+          <div className="text-lg md:text-xl font-semibold text-blue-200">{techStackCount}</div>
+          <div className="text-[10px] md:text-xs text-gray-400">Total Technology</div>
         </div>
       </div>
 
       <div className="relative z-10 flex items-center space-x-2 md:space-x-3 bg-white/5 p-2 md:p-3 rounded-lg border border-purple-500/20 transition-all duration-300 hover:scale-105 hover:border-purple-500/50 hover:shadow-lg">
         <div className="bg-purple-500/20 p-1.5 md:p-2 rounded-full">
-          <Layers
-            className="text-purple-300 w-4 h-4 md:w-6 md:h-6"
-            strokeWidth={1.5}
-          />
+          <Layers className="text-purple-300 w-4 h-4 md:w-6 md:h-6" strokeWidth={1.5} />
         </div>
         <div className="flex-grow">
-          <div className="text-lg md:text-xl font-semibold text-purple-200">
-            {featuresCount}
-          </div>
-          <div className="text-[10px] md:text-xs text-gray-400">
-            Key Features
-          </div>
+          <div className="text-lg md:text-xl font-semibold text-purple-200">{featuresCount}</div>
+          <div className="text-[10px] md:text-xs text-gray-400">Key Features</div>
         </div>
       </div>
     </div>
   );
 };
 
-// Jika repo GitHub bertanda 'Private', tampilkan modal info
 const handleGithubClick = (githubLink) => {
   if (githubLink === "Private") {
     Swal.fire({
@@ -136,21 +114,133 @@ const handleGithubClick = (githubLink) => {
   return true;
 };
 
-// Komponen utama halaman detail project
+// Background Bintang + Bintang Jatuh
+const StarryBackground = () => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    let animationId;
+    let stars = [];
+    let shootingStars = [];
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    const createStars = (count) => {
+      stars = [];
+      for (let i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.4 + 0.4,
+          opacity: Math.random() * 0.8 + 0.2,
+          twinkleSpeed: Math.random() * 0.02 + 0.005,
+          twinkleDirection: Math.random() > 0.5 ? 1 : -1,
+        });
+      }
+    };
+
+    const createShootingStar = () => {
+      shootingStars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * (canvas.height * 0.4),
+        length: Math.random() * 80 + 40,
+        speed: Math.random() * 9 + 6,
+        opacity: 1,
+        angle: Math.PI / 4 + (Math.random() * 0.35 - 0.15),
+      });
+    };
+
+    createStars(160);
+
+    const shootingInterval = setInterval(() => {
+      if (Math.random() > 0.6) createShootingStar();
+    }, 1400);
+
+    const animate = () => {
+      ctx.fillStyle = "#030014";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      stars.forEach((star) => {
+        star.opacity += star.twinkleSpeed * star.twinkleDirection;
+        if (star.opacity <= 0.15 || star.opacity >= 1) {
+          star.twinkleDirection *= -1;
+        }
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        ctx.fill();
+      });
+
+      for (let i = shootingStars.length - 1; i >= 0; i--) {
+        const s = shootingStars[i];
+        const endX = s.x - Math.cos(s.angle) * s.length;
+        const endY = s.y - Math.sin(s.angle) * s.length;
+
+        const gradient = ctx.createLinearGradient(s.x, s.y, endX, endY);
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${s.opacity})`);
+        gradient.addColorStop(0.5, `rgba(180, 210, 255, ${s.opacity * 0.5})`);
+        gradient.addColorStop(1, "rgba(255, 255, 255, 0)");
+
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(endX, endY);
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 2;
+        ctx.lineCap = "round";
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, 2.2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${s.opacity})`;
+        ctx.fill();
+
+        s.x += Math.cos(s.angle) * s.speed;
+        s.y += Math.sin(s.angle) * s.speed;
+        s.opacity -= 0.013;
+
+        if (s.opacity <= 0 || s.x > canvas.width + 120 || s.y > canvas.height + 120) {
+          shootingStars.splice(i, 1);
+        }
+      }
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      clearInterval(shootingInterval);
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 w-full h-full pointer-events-none"
+      style={{ zIndex: 0 }}
+    />
+  );
+};
+
 const ProjectDetails = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const [project, setProject] = useState(null);
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
-  // Ambil data project dari localStorage berdasarkan slug pada URL
   useEffect(() => {
     window.scrollTo(0, 0);
     const storedProjects = JSON.parse(localStorage.getItem("projects")) || [];
-    // Cari project berdasarkan slug yang di-generate dari Title
-    const selectedProject = storedProjects.find(
-      (p) => toSlug(p.Title) === slug,
-    );
+    const selectedProject = storedProjects.find((p) => toSlug(p.Title) === slug);
 
     if (selectedProject) {
       const enhancedProject = {
@@ -166,73 +256,45 @@ const ProjectDetails = () => {
   if (!project) {
     return (
       <div className="min-h-screen bg-[#030014] flex items-center justify-center">
-        <div className="text-center space-y-6 animate-fadeIn">
+        <div className="text-center space-y-6">
           <div className="w-16 h-16 md:w-24 md:h-24 mx-auto border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin" />
-          <h2 className="text-xl md:text-3xl font-bold text-white">
-            Loading Project...
-          </h2>
+          <h2 className="text-xl md:text-3xl font-bold text-white">Loading Project...</h2>
         </div>
       </div>
     );
   }
 
-  // URL canonical untuk meta tags
-  const projectUrl = `https://sanz.com/project/${toSlug(project.Title)}`;
+  const projectUrl = `https://king-sanz.vercel.app/project/${toSlug(project.Title)}`;
 
   return (
     <>
       <Helmet>
-        <title>{project.Title} â€” Sanz</title>
+        <title>{project.Title} - Sanz</title>
         <meta
           name="description"
           content={
             project.Description
               ? project.Description.slice(0, 155)
-              : `Project ${project.Title} oleh Sanz â€” Web Developer.`
+              : `Project ${project.Title} oleh Sanz - Web Developer.`
           }
         />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href={projectUrl} />
-        <meta
-          property="og:title"
-          content={`${project.Title} â€” Sanz`}
-        />
-        <meta
-          property="og:description"
-          content={project.Description?.slice(0, 155)}
-        />
+        <meta property="og:title" content={`${project.Title} - Sanz`} />
+        <meta property="og:description" content={project.Description?.slice(0, 155)} />
         <meta property="og:url" content={projectUrl} />
         <meta property="og:type" content="website" />
         {project.Img && <meta property="og:image" content={project.Img} />}
-        <script type="application/ld+json">{`
-          {
-            "@context": "https://schema.org",
-            "@type": "CreativeWork",
-            "name": "${project.Title}",
-            "description": "${project.Description?.replace(/"/g, '\\"')}",
-            "url": "${projectUrl}",
-            "author": {
-              "@type": "Person",
-              "name": "M.IKSANUDDIN",
-              "url": "https://king-sanz.vercel.app"
-            }
-          }
-        `}</script>
       </Helmet>
 
-      <div className="min-h-screen bg-[#030014] px-[2%] sm:px-0 relative overflow-hidden">
-        <div className="fixed inset-0">
-          <div className="absolute -inset-[10px] opacity-20">
-            <div className="absolute top-0 -left-4 w-72 md:w-96 h-72 md:h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
-            <div className="absolute top-0 -right-4 w-72 md:w-96 h-72 md:h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000" />
-            <div className="absolute -bottom-8 left-20 w-72 md:w-96 h-72 md:h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000" />
-          </div>
-          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02]" />
-        </div>
+      <div className="min-h-screen relative overflow-hidden">
+        {/* Background Bintang + Bintang Jatuh */}
+        <StarryBackground />
 
-        <div className="relative">
+        <div className="relative z-10">
           <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16">
-            <div className="flex items-center space-x-2 md:space-x-4 mb-8 md:mb-12 animate-fadeIn">
+            {/* Breadcrumb */}
+            <div className="flex items-center space-x-2 md:space-x-4 mb-8 md:mb-12">
               <button
                 onClick={() => navigate(-1)}
                 className="group inline-flex items-center space-x-1.5 md:space-x-2 px-3 md:px-5 py-2 md:py-2.5 bg-white/5 backdrop-blur-xl rounded-xl text-white/90 hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-white/20 text-sm md:text-base"
@@ -248,14 +310,17 @@ const ProjectDetails = () => {
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8 md:gap-16">
-              <div className="space-y-6 md:space-y-10 animate-slideInLeft">
+              {/* Left Content */}
+              <div className="space-y-6 md:space-y-10">
                 <div className="space-y-4 md:space-y-6">
-                  <h1 className="text-3xl md:text-6xl font-bold bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 bg-clip-text text-transparent leading-tight">
+                  <h1 className="text-3xl md:text-6xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight">
                     {project.Title}
                   </h1>
+
+                  {/* Line biru */}
                   <div className="relative h-1 w-16 md:w-24">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-sm" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-600 rounded-full" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-600 rounded-full blur-sm opacity-70" />
                   </div>
                 </div>
 
@@ -268,7 +333,6 @@ const ProjectDetails = () => {
                 <ProjectStats project={project} />
 
                 <div className="flex flex-wrap gap-3 md:gap-4">
-                  {/* Perbaikan di sini: Menggunakan formatUrl agar tidak dianggap sebagai relative path */}
                   <a
                     href={formatUrl(project.Link)}
                     target="_blank"
@@ -285,9 +349,7 @@ const ProjectDetails = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group relative inline-flex items-center space-x-1.5 md:space-x-2 px-4 md:px-8 py-2.5 md:py-4 bg-gradient-to-r from-purple-600/10 to-pink-600/10 hover:from-purple-600/20 hover:to-pink-600/20 text-purple-300 rounded-xl transition-all duration-300 border border-purple-500/20 hover:border-purple-500/40 backdrop-blur-xl overflow-hidden text-sm md:text-base"
-                    onClick={(e) =>
-                      !handleGithubClick(project.Github) && e.preventDefault()
-                    }
+                    onClick={(e) => !handleGithubClick(project.Github) && e.preventDefault()}
                   >
                     <div className="absolute inset-0 translate-y-[100%] bg-gradient-to-r from-purple-600/10 to-pink-600/10 transition-transform duration-300 group-hover:translate-y-[0%]" />
                     <Github className="relative w-4 h-4 md:w-5 md:h-5 group-hover:rotate-12 transition-transform" />
@@ -307,14 +369,13 @@ const ProjectDetails = () => {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-sm md:text-base text-gray-400 opacity-50">
-                      No technologies added.
-                    </p>
+                    <p className="text-sm md:text-base text-gray-400 opacity-50">No technologies added.</p>
                   )}
                 </div>
               </div>
 
-              <div className="space-y-6 md:space-y-10 animate-slideInRight">
+              {/* Right Content */}
+              <div className="space-y-6 md:space-y-10">
                 <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl group">
                   <div className="absolute inset-0 bg-gradient-to-t from-[#030014] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <img
@@ -338,78 +399,13 @@ const ProjectDetails = () => {
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-gray-400 opacity-50">
-                      No features added.
-                    </p>
+                    <p className="text-gray-400 opacity-50">No features added.</p>
                   )}
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <style jsx>{`
-          @keyframes blob {
-            0% {
-              transform: translate(0px, 0px) scale(1);
-            }
-            33% {
-              transform: translate(30px, -50px) scale(1.1);
-            }
-            66% {
-              transform: translate(-20px, 20px) scale(0.9);
-            }
-            100% {
-              transform: translate(0px, 0px) scale(1);
-            }
-          }
-          .animate-blob {
-            animation: blob 10s infinite;
-          }
-          .animation-delay-2000 {
-            animation-delay: 2s;
-          }
-          .animation-delay-4000 {
-            animation-delay: 4s;
-          }
-          .animate-fadeIn {
-            animation: fadeIn 0.7s ease-out;
-          }
-          .animate-slideInLeft {
-            animation: slideInLeft 0.7s ease-out;
-          }
-          .animate-slideInRight {
-            animation: slideInRight 0.7s ease-out;
-          }
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-            }
-            to {
-              opacity: 1;
-            }
-          }
-          @keyframes slideInLeft {
-            from {
-              opacity: 0;
-              transform: translateX(-30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-          @keyframes slideInRight {
-            from {
-              opacity: 0;
-              transform: translateX(30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-        `}</style>
       </div>
     </>
   );

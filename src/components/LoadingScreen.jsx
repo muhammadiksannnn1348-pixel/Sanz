@@ -1,9 +1,4 @@
-﻿/*
-  File: src\components\LoadingScreen.jsx
-  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
-  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
-*/
-import React from 'react';
+﻿import React from 'react';
 
 // Komponen layar loading sederhana yang menampilkan spinner dan teks
 // Digunakan saat menunggu data atau saat halaman sedang inisialisasi
