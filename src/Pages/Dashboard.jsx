@@ -1,9 +1,4 @@
-﻿/*
-  File: src\Pages\Dashboard.jsx
-  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
-  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
-*/
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { Routes, Route, Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { supabase } from '../supabase'
 import Projects from './dashboard/Projects'

@@ -1,9 +1,4 @@
-﻿/*
-  File: src\supabase.js
-  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
-  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
-*/
-// Konfigurasi Supabase client
+﻿// Konfigurasi Supabase client
 import { createClient } from '@supabase/supabase-js';
 
 // Ambil URL dan KEY dari environment variables (Vite)

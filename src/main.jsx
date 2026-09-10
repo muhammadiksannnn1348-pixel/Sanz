@@ -1,9 +1,4 @@
-﻿/*
-  File: src\main.jsx
-  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
-  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
-*/
-// Entrypoint aplikasi: mount React ke DOM
+﻿// Entrypoint aplikasi: mount React ke DOM
 import React from "react" // Inti React
 import ReactDOM from "react-dom/client" // API render modern (createRoot)
 import App from "./App.jsx" // Komponen root aplikasi
@@ -16,4 +11,3 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 		<App />
 	</React.StrictMode>
 )
-
