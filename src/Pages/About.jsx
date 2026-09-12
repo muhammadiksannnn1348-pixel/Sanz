@@ -1,9 +1,4 @@
-﻿/*
-  File: src\Pages\About.jsx
-  Deskripsi: File ini menangani bagian tertentu dari aplikasi portfolio digital.
-  Catatan: Kode ini digunakan untuk rendering, data, dan logika interaksi pada halaman website.
-*/
-import React, { useEffect, useState, memo, useMemo } from "react"
+﻿import React, { useEffect, useState, memo, useMemo } from "react"
 import { FileText, Code, Award, Globe, ArrowUpRight, Sparkles, UserCheck } from "lucide-react"
 import AOS from 'aos'
 import 'aos/dist/aos.css'
@@ -270,7 +265,7 @@ const AboutPage = () => {
       </div>
 
             <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 lg:gap-4 lg:px-0 w-full">
-              <a href="/cv.png" className="w-full lg:w-auto">
+              <a href="/cv.png" download="CV M.Iksanuddin.png" className="w-full lg:w-auto">
               <button 
                 data-aos="fade-up"
                 data-aos-duration="800"
