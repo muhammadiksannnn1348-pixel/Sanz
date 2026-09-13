@@ -3,7 +3,7 @@
 import { supabase } from "../supabase"; 
 
 import PropTypes from "prop-types";
-import SwipeableViews from "react-swipeable-views-react-18-fix"; // ← Sudah diganti
+import SwipeableViews from "react-swipeable-views-react-18-fix";
 import { useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
@@ -173,7 +173,7 @@ export default function FullWidthTabs() {
 
 
   useEffect(() => {
-    // Coba ambil dari localStorage dulu untuk load lebih cepat
+    // Coba ambil dari localStorage dulu untuk laod lebih cepat
     const cachedProjects = localStorage.getItem('projects');
     const cachedCertificates = localStorage.getItem('certificates');
 
@@ -200,9 +200,10 @@ export default function FullWidthTabs() {
   const displayedProjects = showAllProjects ? projects : projects.slice(0, initialItems);
   const displayedCertificates = showAllCertificates ? certificates : certificates.slice(0, initialItems);
 
+  // Sisa dari komponen (return statement) tidak ada perubahan
   return (
     <div className="md:px-[10%] px-[5%] w-full sm:mt-0 mt-[3rem] bg-[#030014] overflow-hidden" id="Portofolio">
-      {/* Header section */}
+      {/* Header section - unchanged */}
       <div className="text-center pb-10" data-aos="fade-up" data-aos-duration="1000">
         <h2 className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
           <span style={{
@@ -222,6 +223,7 @@ export default function FullWidthTabs() {
       </div>
 
       <Box sx={{ width: "100%" }}>
+        {/* AppBar and Tabs section - unchanged */}
         <AppBar
           position="static"
           elevation={0}
@@ -245,6 +247,7 @@ export default function FullWidthTabs() {
           }}
           className="md:px-4"
         >
+          {/* Tabs remain unchanged */}
           <Tabs
             value={value}
             onChange={handleChange}
