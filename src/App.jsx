@@ -1,5 +1,5 @@
 ﻿import { BrowserRouter, Routes, Route } from "react-router-dom"; // Routing SPA
-import React, { useState, lazy, Suspense } from "react"; // React core + hooks + lazy loading
+import React, { useState, useCallback, lazy, Suspense } from "react"; // React core + hooks + lazy loading
 import { HelmetProvider } from "react-helmet-async"; // Untuk mengelola <head> (title, meta)
 
 // Styling global
@@ -71,6 +71,9 @@ const ProjectPageLayout = () => (
 function App() {
   // State untuk menampilkan welcome splash saat pertama load
   const [showWelcome, setShowWelcome] = useState(true);
+  const handleWelcomeComplete = useCallback(() => {
+    setShowWelcome(false);
+  }, []);
 
   return (
     // HelmetProvider membungkus aplikasi agar dapat mengatur tag <head>
@@ -89,7 +92,7 @@ function App() {
             element={
               <LandingPage
                 showWelcome={showWelcome}
-                setShowWelcome={setShowWelcome}
+                setShowWelcome={handleWelcomeComplete}
               />
             }
           />
