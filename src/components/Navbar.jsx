@@ -16,14 +16,14 @@ const Navbar = () => {
     // true jika halaman sudah digulir lebih dari ambang (dipakai untuk efek background)
     const [scrolled, setScrolled] = useState(false);
     // id section aktif (mis. 'Home', 'About') untuk menandai item navbar
-    const [activeSection, setActiveSection] = useState("Home");
+    const [activeSection, setActiveSection] = useState("home");
 
     // daftar link navigasi; gunakan href anchor agar berlaku single-page
     const navItems = [
-        { href: "#Home", label: "Home" },
-        { href: "#About", label: "About" },
-        { href: "#Portofolio", label: "Portofolio" },
-        { href: "#Contact", label: "Contact" },
+        { href: "#home", label: "Home" },
+        { href: "#about", label: "About" },
+        { href: "#portofolio", label: "Portofolio" },
+        { href: "#contact", label: "Contact" },
     ];
 
     // Effect untuk memantau scroll dan menentukan section aktif
@@ -78,6 +78,7 @@ const Navbar = () => {
         const section = document.querySelector(href);
         if (section) {
             const top = section.offsetTop - 100; // offset agar tidak tertutup header
+            window.history.pushState(null, "", href.toLowerCase());
             window.scrollTo({
                 top: top,
                 behavior: "smooth",
@@ -101,8 +102,8 @@ const Navbar = () => {
                     {/* Logo */}
                     <div className="flex-shrink-0">
                         <a
-                            href="#Home"
-                            onClick={(e) => scrollToSection(e, "#Home")}
+                            href="#home"
+                            onClick={(e) => scrollToSection(e, "#home")}
                             className="text-xl font-bold bg-gradient-to-r from-[#a855f7] to-[#6366f1] bg-clip-text text-transparent"
                         >
                             Sanz
