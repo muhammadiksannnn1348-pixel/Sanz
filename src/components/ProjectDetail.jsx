@@ -332,7 +332,7 @@ const ProjectDetails = () => {
               {/* Left Content */}
               <div className="space-y-6 md:space-y-10">
                 <div className="space-y-4 md:space-y-6">
-                  <h1 className="text-3xl md:text-6xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent leading-tight">
+                  <h1 className="text-3xl md:text-6xl font-bold bg-gradient-to-r from-[#6366f1] via-[#a855f7] to-[#6366f1] bg-clip-text text-transparent leading-tight">
                     {project.Title}
                   </h1>
 

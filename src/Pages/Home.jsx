@@ -17,12 +17,12 @@ const DiscordIcon = ({ className, ...props }) => (
 
 // Badge kecil yang menandakan status/CTA, dioptimalkan untuk performa dengan memo
 const StatusBadge = memo(() => (
-  <div className="inline-block animate-float lg:mx-0 mt-10" data-aos="zoom-in" data-aos-delay="400">
+  <div className="inline-block lg:mx-0 mt-10">
     <div className="relative group cursor-default">
       <div className="absolute -inset-0.5 bg-gradient-to-r from-[#6366f1] to-[#a855f7] rounded-full blur-sm opacity-20 group-hover:opacity-40 transition-all duration-500"></div>
       <div className="relative px-4 sm:px-4 py-2 rounded-full bg-black/40 backdrop-blur-xl border border-white/10 group-hover:border-white/20 group-hover:scale-[1.02] transition-all duration-300">
         <span className="bg-gradient-to-r from-[#6366f1] via-indigo-300 to-[#a855f7] text-transparent bg-clip-text sm:text-sm text-[0.7rem] font-medium flex items-center">
-          <Sparkles className="sm:w-4 sm:h-4 w-3 h-3 mr-2 text-indigo-400 animate-spin-slow" />
+          <Sparkles className="sm:w-4 sm:h-4 w-3 h-3 mr-2 text-indigo-400" />
           Ready to Innovate
         </span>
       </div>
@@ -35,15 +35,15 @@ const MainTitle = memo(() => (
   <div className="space-y-2" data-aos="fade-up" data-aos-delay="600">
     <h1 className="text-5xl sm:text-6xl md:text-6xl lg:text-6xl xl:text-6xl font-bold tracking-tight">
       <span className="relative inline-block">
-        <span className="absolute -inset-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] blur-xl opacity-10 group-hover:opacity-20 transition-opacity"></span>
-        <span className="relative bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent hover:tracking-wide transition-all duration-500">
+        <span className="absolute -inset-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] blur-xl opacity-10"></span>
+        <span className="relative bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
           Full-Stack
         </span>
       </span>
       <br />
       <span className="relative inline-block mt-2">
         <span className="absolute -inset-2 bg-gradient-to-r from-[#6366f1] to-[#a855f7] blur-xl opacity-10"></span>
-        <span className="relative bg-gradient-to-r from-[#6366f1] via-purple-400 to-[#a855f7] bg-clip-text text-transparent drop-shadow-[0_5px_15px_rgba(99,102,241,0.2)]">
+        <span className="relative bg-gradient-to-r from-[#6366f1] via-[#a855f7] to-[#6366f1] bg-clip-text text-transparent drop-shadow-[0_5px_15px_rgba(99,102,241,0.2)]">
           Web Developer
         </span>
       </span>
